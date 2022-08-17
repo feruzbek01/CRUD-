@@ -15,8 +15,8 @@ import {v4 as uuid} from 'uuid'
         return {
           users: state?.users?.map((value) => {
             // eslint-disable-next-line
-            if (value.id == action.id) {
-              value.name = action.payload
+            if (value.id == action.payload.id) {
+              value.name = action.payload.name
               return value
             } else {
              return value
@@ -61,7 +61,6 @@ export const Provider = ({ children }) => {
   const onEdit = (Edited, id) => {
     dispatch({
       type: "onEdit",
-      id: id,
       payload: Edited,
     });
   };

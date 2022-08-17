@@ -12,8 +12,10 @@ export const AddUser = () => {
   const [name , setName] = useState(null)
   
   const Submit = () => {
-    onAdd(name)
-    navigate('/')
+    if (name.length) {
+      onAdd(name);
+      navigate("/");
+    }
   }
 
   return (

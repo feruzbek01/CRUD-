@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { GlobalContext } from "../../Context";
 import { Button } from "../../Generics/Button";
@@ -6,17 +6,20 @@ import { Input } from "../../Generics/Input";
 import { Container } from "./style";
 
 export const EditUser = () => {
-  const { onEdit } = useContext(GlobalContext)
-  const {id} = useParams()
+  const { onEdit, users } = useContext(GlobalContext);
+  const { id } = useParams()
+
   const navigate = useNavigate();
-  const [edited, setEdited] = useState(null)
+  const [edited, setEdited] = useState([])
 
+  console.log(users);
 
-  // useEffect(() => {
-
-  //   const User = users.find((user) => user.id == id);
-  //   setSelected(User.name);
-  // }, [users, id]);
+  useEffect(() => {
+    // eslint-disable-next-line
+    const User = users.find((user) => user.id == id);
+    setEdited(User);
+    console.log(User, "User");
+  }, [users, id]);
 
   const Submit = () => {
     onEdit(edited, id)
@@ -24,18 +27,30 @@ export const EditUser = () => {
   }
 
   const onChange = (e) => {
-    setEdited(e.target.value);
+    setEdited({
+      id:id,
+      name: e.target.value,
+    });
   }
   return (
     <div className="center">
       <Container>
         <div className="subTitle">Name</div>
-        <Input onChange={onChange} placeholder={"Edit User"} />
+        <Input
+          value={edited?.name}
+          onChange={onChange}
+          placeholder={"Edit User"}
+        />
         <div>
           <Button mt={"10px"} onClick={Submit}>
             Edit Name
           </Button>
-          <Button ml={'5px'} mt={"10px"} onClick={() => navigate("/")} type={"secondary"}>
+          <Button
+            ml={"5px"}
+            mt={"10px"}
+            onClick={() => navigate("/")}
+            type={"secondary"}
+          >
             Cancel
           </Button>
         </div>
